@@ -1,18 +1,30 @@
 import pgzrun
 import time
+import re
 from random import randint
 
 #Human =
 #Alien =
-
+start = Actor('start-text')
+background = Actor('background')
 def draw():
-    #เมนูเกม
+    screen.blit('background', (0,0))
+    screen.blit('humanvsalientext', (0,0))
+    start.draw()
 
-def drawCentretext(t):
+
+def on_mouse_down(pos):
+    if start.collidepoint():
+        screen.blit('background', (0,0))
+
+
+#def drawCentretext(t):
     #ตัวอักษร
 
-def Human():
+#def Human():
     #Player1
 
-def Alien():
+#def Alien():
     #PLayer2
+
+pgzrun.go()
