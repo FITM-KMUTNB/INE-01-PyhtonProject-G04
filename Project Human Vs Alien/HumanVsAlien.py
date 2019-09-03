@@ -14,17 +14,14 @@ def draw():
 
 
 def on_mouse_down(pos):
-    if start.collidepoint():
+    if start.collidepoint() :
         screen.blit('background', (0,0))
 
 
-#def drawCentretext(t):
-    #ตัวอักษร
 
 #def Human():
-    #Player1
 
 #def Alien():
-    #PLayer2
+
 
 pgzrun.go()
