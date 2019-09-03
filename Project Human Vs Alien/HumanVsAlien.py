@@ -1,4 +1,5 @@
 import pgzrun
+import math
 import time
 import re
 from random import randint
