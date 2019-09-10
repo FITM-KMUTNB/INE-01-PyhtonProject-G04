@@ -23,12 +23,12 @@ def draw():
     updateLasers()
 
 def update():
-    global Human,moveCounter,lasers
+    global Human,moveCounter,lasers,state
     if keyboard.left:
         if Human.x > 40:
             Human.x -= 2
     if keyboard.right:
-        if Human.x < 400:
+        if Human.x < 700:
             Human.x += 2
     if keyboard.up:
         if Human.y > 40:
@@ -37,15 +37,7 @@ def update():
         if Human.y < 570:
             Human.y += 2
     if keyboard.F1 :
-        drawAliens()
-        updateAliens()
-        if moveCounter == 0:
-            updateAliens()
-            moveCounter += 1
-        if moveCounter == moveDelay:
-            moveCounter = 0
         state = 0
-    if keyboard.F2 :
         drawAliens()
         updateAliens()
         if moveCounter == 0:
@@ -53,7 +45,15 @@ def update():
             moveCounter += 1
         if moveCounter == moveDelay:
             moveCounter = 0
+    if keyboard.F2 :
         state = 1
+        drawAliens()
+        updateAliens()
+        if moveCounter == 0:
+            updateAliens()
+            moveCounter += 1
+        if moveCounter == moveDelay:
+            moveCounter = 0
     if keyboard.space :
         if Human.laserActive ==  1 :
                 Human.laserActive = 0
@@ -61,7 +61,7 @@ def update():
                 lasers.append(Actor("laser1", (Human.x, Human.y-32)))
                 lasers[len(lasers)-1].status = 0
                 lasers[len(lasers)-1].type = 1
-            
+    
 def makeLaserActive() :
     global Human
     Human.laserActive = 1
@@ -78,7 +78,7 @@ def drawAliens():
         aliens[a].draw()
 
 def updateAliens():
-    global moveSequence, lasers, moveDelay
+    global moveSequence, lasers, moveDelay,state
     movex = movey = 0
     if moveSequence < 10 or moveSequence > 30:
         movex = -5
@@ -121,15 +121,15 @@ def drawLasers():
         lasers[l].draw()
 
 def initAliens():
-    global aliens, moveCounter, moveSequence
+    global aliens, moveCounter, moveSequence,state
     aliens = []
     moveCounter = moveSequence = 0
     if state == 0:
-        for a in range(5):
+        for a in range(4):
             aliens.append(Actor("alien1", (210+(a % 6)*80, 100+(int(a/6)*64))))
             aliens[a].status = 0
     elif state == 1:
-            for a in range(3):
+            for a in range(2):
                 aliens.append(Actor("alien2", (210+(a % 6)*80, 100+(int(a/6)*64))))
                 aliens[a].status = 0
 
@@ -145,6 +145,7 @@ def updateLasers():
                 if lasers[l].y < 10:
                     lasers[l].status = 1
     lasers = listCleanup(lasers)
+    
 
 def collideLaser(self, other):
     return (
@@ -167,6 +168,14 @@ def init():
     Human.laserActive = 1
     moveDelay = 30
     initAliens()
+
+def checkPlayerLaserHit(l):
+    global score
+    for a in range(len(aliens)):
+        if aliens[a].collidepoint((lasers[l].x, lasers[l].y)):
+            lasers[l].status = 1
+            aliens[a].status = 1
+
 
 #def AlienSkill () :
 
