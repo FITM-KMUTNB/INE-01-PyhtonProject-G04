@@ -4,12 +4,13 @@ import time
 import re
 from random import randint
 
+HumanHit = 0
 Human = Actor('spaceship')
 Alien = Actor('alien1')
 start = Actor('start-text')
 background = Actor('background')
 Alien2 = Actor('alien2')
-moveCounter = moveSequence = Human.laserCountdown = 0
+moveCounter = moveSequence = Human.status = Human.laserCountdown = 0
 state = 0
 Human.pos = 100,550
 Alien.pos = 750,50
@@ -25,18 +26,21 @@ def draw():
         Alien2.draw()
         drawLasers()
         updateLasers()
+        drawLives()
         screen.draw.text("Alien Point " + str(Point), midtop=(750, 10), owidth=0.01,
                             ocolor=(255, 255, 255), color=(0, 0, 0), fontsize=18)
         screen.draw.text("Delay " + str(int(PutDelay)), midtop=(750, 25), owidth=0.01,
                             ocolor=(0, 0, 0), color=(255, 255, 255), fontsize=18)
-    elif Point == 0 :
+    if Point == 0 or Human.lives == 0 :
         screen.fill((0,0,0))
         screen.draw.text("Game Over", midtop=(400, 230), owidth=0.01,
                             ocolor=(0, 0, 0), color=(255, 255, 255), fontsize=150)
     
 def update():
-    global Human,moveCounter,lasers,state,Point,PutDelay
+    global Human,moveCounter,lasers,state,Point,PutDelay,HumanHit
     if Point != 0 :
+        if Human.status > 0:
+            Human.status += 1
         if keyboard.left:
             if Human.x > 40:
                 Human.x -= 5
@@ -83,7 +87,9 @@ def update():
         PutDelay += 000.2
     if PutDelay < 0 :
         PutDelay = 0
-
+    if HumanHit > 0 :
+        Human.lives -= 1
+        HumanHit = 0
 def makeLaserActive() :
     global Human
     Human.laserActive = 1
@@ -164,6 +170,7 @@ def updateLasers():
     for l in range(len(lasers)):
             if lasers[l].type == 0:
                 lasers[l].y += 1.25
+                checkLaserHit(l)
                 if lasers[l].y > 600:
                     lasers[l].status = 1
             if lasers[l].type == 1:
@@ -183,17 +190,23 @@ def collideLaser(self, other):
     )
 
 def checkLaserHit(l):
-    global Human
-    if Human.collidepoint((aliens[l].x, aliens[l].y)):
+    global Human,HumanHit
+    if Human.collidepoint((lasers[l].x, lasers[l].y)):
         Human.status = 1
-        aliens[l].status = 1
+        lasers[l].status = 1
+        HumanHit = 1
+    
+def drawLives():
+    for l in range(Human.lives):
+        screen.blit("lives", (10+(l*32), 10))
 
 def init():
     global Human, lasers , moveSequence, moveCounter, moveDelay
     lasers = []
-    moveCounter = moveSequence = Human.laserCountdown = 0
+    moveCounter = moveSequence = Human.laserCountdown = Human.status = 0
     Human.laserActive = 1
     moveDelay = 0
+    Human.lives = 3
     initAliens()
 
 def checkPlayerLaserHit(l):
