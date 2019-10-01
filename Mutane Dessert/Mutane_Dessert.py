@@ -290,7 +290,7 @@ def update() :
             n = 0
         for i in range(len(Dessert1)) :
             if DessertState == 0 :
-                Dessert1[i].y += 5
+                Dessert1[i].y += 7
             if DessertState == 1 and n < 10 :
                 Dessert1[i].y += 10 
             if DessertState == 2 and n < 10 :
@@ -317,7 +317,7 @@ def update() :
 
         for i in range(len(Dessert2)) :
             if DessertState == 0 :
-                Dessert2[i].x += 5
+                Dessert2[i].x += 7
             if DessertState == 1 and n < 10 :
                 Dessert2[i].x += 10
             if DessertState == 2 and n < 10 :
@@ -344,7 +344,7 @@ def update() :
 
         for i in range(len(Dessert3)) :
             if DessertState == 0 :
-                Dessert3[i].y -= 5
+                Dessert3[i].y -= 7
             if DessertState == 1 and n < 10 :
                 Dessert3[i].y -= 10
             if DessertState == 2 and n < 10 :
@@ -371,7 +371,7 @@ def update() :
 
         for i in range(len(Dessert4)) :
             if DessertState == 0 :
-                Dessert4[i].x -= 5
+                Dessert4[i].x -= 7
             if DessertState == 1 and n < 10 :
                 Dessert4[i].x -= 10
             if DessertState == 2 and n < 10 :
