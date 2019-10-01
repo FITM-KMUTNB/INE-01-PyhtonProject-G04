@@ -40,7 +40,7 @@ def draw() :
     # เป็นเการทำหน้าเกมทั้งหมด
     if GameState == 0 :
         # ใช้ทำหน้าเริ่มเกม
-        screen.blit('maingame',(0,0))
+        screen.blit('mainbackground',(0,0))
     if GameState == 1 :
         # ใช้ทำหน้าใส่ชื่อตัวละคร
         screen.blit('background',(0,0))
@@ -332,6 +332,7 @@ def update() :
             person.x -= 5
         # การเก็บ Item ของ Chef
         if player.collidepoint((Cake.x,Cake.y)) :
+            sounds.player_correct.play()
             Cake.pos = random.randrange(100,700),random.randrange(100,500)
             Heath += 1
             ChefScore += 100
@@ -370,12 +371,14 @@ def update() :
                     break
                 # การชนของ Chef กับ Dessert
                 if Dessert1[i].collidepoint((player.x,player.y)) and Skill != 2 :
+                    sounds.hit.play()
                     Dessert1.pop(i)
                     Heath -= 1
                     Hit += 1
                     break
                 # การเก็บ Item ของ Dessert
                 if Dessert1[i].collidepoint((Cake.x,Cake.y)) and DessertState == 0 :
+                    sounds.hitcorrect.play()
                     Dessert1.pop(i)
                     Cake.pos = random.randrange(100,700),random.randrange(100,500)
                     DessertState = random.randrange(1,3)
@@ -398,11 +401,13 @@ def update() :
                     Dessert2.pop(i)
                     break
                 if Dessert2[i].collidepoint((player.x,player.y)) and Skill != 2:
+                    sounds.hit.play()
                     Dessert2.pop(i)
                     Heath -= 1
                     Hit += 1
                     break
                 if Dessert2[i].collidepoint((Cake.x,Cake.y)) and DessertState == 0 :
+                    sounds.hitcorrect.play()
                     Dessert2.pop(i)
                     Cake.pos = random.randrange(100,700),random.randrange(100,500)
                     DessertState = random.randrange(1,3)
@@ -425,11 +430,13 @@ def update() :
                     Dessert3.pop(i)
                     break
                 if Dessert3[i].collidepoint((player.x,player.y)) and Skill != 2:
+                    sounds.hit.play()
                     Dessert3.pop(i)
                     Heath -= 1
                     Hit += 1
                     break
                 if Dessert3[i].collidepoint((Cake.x,Cake.y)) and DessertState == 0 :
+                    sounds.hitcorrect.play()
                     Dessert3.pop(i)
                     Cake.pos = random.randrange(100,700),random.randrange(100,500)
                     DessertState = random.randrange(1,3)
@@ -452,11 +459,13 @@ def update() :
                     Dessert4.pop(i)
                     break
                 if Dessert4[i].collidepoint((player.x,player.y)) and Skill != 2 :
+                    sounds.hit.play()
                     Dessert4.pop(i)
                     Heath -= 1
                     Hit +=1
                     break
                 if Dessert4[i].collidepoint((Cake.x,Cake.y)) and DessertState == 0 :
+                    sounds.hitcorrect.play()
                     Dessert4.pop(i)
                     Cake.pos = random.randrange(100,700),random.randrange(100,500)
                     DessertState = random.randrange(1,3)
